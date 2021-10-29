@@ -27,7 +27,7 @@
         color: white;
     }
 
-    @keyframes spinner {
+    @keyframes spinner-1 {
         to {
             transform: rotate(360deg);
         }
@@ -68,19 +68,21 @@
     <div class="container">
         <div class="card">
             <div class="card-header">
-                Main Points
+                <b>Main Points</b>
             </div>
             <div class="card-body">
                 <h5 class="card-title">
                     <div class="alert alert-primary" role="alert">
-                        This Text has {{ number_of_tokens }} tokens with {{ len_of_words }} important points
+                        This Text has <strong> {{ number_of_tokens }} </strong>tokens with <strong> {{ len_of_words }} important points </strong>
                     </div>
                 </h5>
                 <div class="text">
-                    <h5>Your Text</h5>
-                    <p>Time Elapsed: <span style="color:#0091EA;">{{ time_elapsed }}</span> seconds to analyze the text!
+                    <h5><strong>Your Text: </strong></h5>
+                    <p><span style="color:#0091EA;">{{ received_text }}</span></p><br>
+                    <br>
+                    <p><strong>Time Elapsed: </strong><span style="color:#0091EA;">{{ time_elapsed }}</span> seconds to analyze the text!
                     </p>
-                    <p>This text is about: </p>
+                    <p><strong> This text is about: </strong></p>
                     {% for i in summary %}
                     <ul class="list-group">
                         <li class="list-group-item list-group-item-info"><span style="color:black;">{{ i }}</span>
