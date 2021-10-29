@@ -1,0 +1,137 @@
+{% extends "bootstrap/base.html" %}
+{% block content %}
+
+<style type="text/css">
+    body {
+        font: 15px/1.5 Arial, Helvetica, sans-serif;
+    }
+
+    .spinner-1:before {
+        content: "";
+        box-sizing: border-box;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 60px;
+        width: 60px;
+        margin-top: -30px;
+        margin-left: -30px;
+        border-radius: 50%;
+        border: 6px solid transparent;
+        border-top-color: blue;
+        animation: spinner 0.7s linear infinite;
+    }
+
+    .jumbotron text-center {
+        background-color: green;
+        color: white;
+    }
+
+    @keyframes spinner {
+        to {
+            transform: rotate(360deg);
+        }
+
+    }
+
+    li {
+        background-color: #BDBDBD;
+    }
+
+    li:nth-child(odd) {
+        background-color: green;
+    }
+</style>
+
+<div class="container">
+    <div class="jumbotron text-center">
+        <h3>Sentiment Analysis using NLP</h3>
+        <p>A Text Summarization Tool</p>
+    </div>
+</div>
+
+<div class="container">
+    <form action="{{ url_for('analyze') }}" method="POST" id="myForm">
+        <label><strong>Enter Your Text Below</strong></label><br>
+        <textarea name="rawtext" class="form-control" cols="40" rows="20"></textarea><br>
+
+        <input type="submit" onClick="myAnalyzer()" value="Submit" class="btn btn-primary">
+        <input type="button" onClick="myFunction()" value="Clear" class="btn btn-outline-dark">
+
+        <a href="{{ url_for('index') }}" type="button" class="btn btn-danger">Reset</a>
+    </form>
+</div>
+<br>
+<hr>
+
+<div class="main">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                Main Points
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    <div class="alert alert-primary" role="alert">
+                        This Text has {{ number_of_tokens }} tokens with {{ len_of_words }} important points
+                    </div>
+                </h5>
+                <div class="text">
+                    <h5>Your Text</h5>
+                    <p>Time Elapsed: <span style="color:#0091EA;">{{ time_elapsed }}</span> seconds to analyze the text!
+                    </p>
+                    <p>This text is about: </p>
+                    {% for i in summary %}
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-info"><span style="color:black;">{{ i }}</span>
+                            <a href="https://www.dictionary.com/browse/{{i}}?s=" target="_blank" type="button"
+                                class="btn btn-outline-primary btn-sm"
+                                style="float:right;font-size:9px;color:#fff;">View</a>
+                        </li>
+                    </ul>
+                    {% endfor %}
+                </div>
+                <div class="card-footer text-muted">
+                    <table class="table table-striped table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sentiment</th>
+                                <th scope="col">Polarity</th>
+                                <th scope="col">Subjectivity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Score:</th>
+                                <td>{{ blob_sentiment }}</td>
+                                <td>{{ blob_subjectivity }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    function myFunction() {
+        document.getElementById("myForm").reset();
+    }
+</script>
+<script>
+    function myAnalyzer() {
+        document.querySelector(".main div").style.display = "none";
+        document.querySelector(".main").classList.add('spinner-1');
+        setTimeout(() => {
+            document.querySelector(".main").classList.remove("spinner-1");
+            document.querySelector(".main div").style.display = "block";
+        }, 5000);
+    }
+</script>
+
+{% endblock scripts %}
