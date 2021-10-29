@@ -15,12 +15,14 @@ def index():
 def analyze():
     start = time.time()
     if request.method == 'POST':
-        rawtext = request.form('rawtext')
+        rawtext = request.form['rawtext']
         blob = TextBlob(rawtext)
         received_text = blob
         blob_sentiment,blob_subjectivity = blob.sentiment.polarity, blob.sentiment.subjectivity
         number_of_tokens = len(list(blob.words))
         nouns = list()
+        summary =list()
+        time_elapsed =0
         for word,tag in blob.tags:
             if tag=="NN":
                 nouns.append(word.lemmatize())
