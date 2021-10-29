@@ -35,3 +35,6 @@ def analyze():
                     time_elapsed = end - start
 
     return render_template("index.html", received_text=received_text,number_of_tokens=number_of_tokens,blob_sentiment=blob_sentiment,blob_subjectivity=blob_subjectivity, summary=summary, time_elapsed=time_elapsed)
+
+if __name__ == '__main__':
+    app.run(debug=True)
